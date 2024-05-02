@@ -1,0 +1,50 @@
+
+.image-gallery-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+.current-image-container {
+    margin-bottom: 10px;
+}
+
+.current-image {
+    max-width: 100%;
+    max-height: 400px;
+}
+
+
+.thumbnail-container {
+    display: flex;
+    align-items: center;
+}
+
+.thumbnail-row {
+    display: flex;
+    overflow-x: hidden;
+}
+
+
+.thumbnail {
+    width: 60px; 
+    height: 60px;
+    margin-right: 5px; 
+    cursor: pointer;
+    opacity: 0.6;
+}
+
+.thumbnail.active {
+    border: 2px solid rgb(59, 132, 201); 
+    opacity: 1;
+}
+
+
+.thumbnail-arrow {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 24px;
+    padding: 5px;
+}
