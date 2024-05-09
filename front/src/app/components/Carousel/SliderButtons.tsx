@@ -1,9 +1,6 @@
 import React from "react";
 
-interface ButtonProps {
-    link: string;
-    text: string;
-}
+
 
 const SliderButtons: React.FC<{ link: string }> = ({ link }) => {
     return (

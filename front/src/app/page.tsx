@@ -14,21 +14,21 @@ export default function Home() {
 const [products, setProducts] = useState([]);
 
 useEffect(() => {
-     const fetchProducts = async () => {
-         try {
-             const response = await fetch('http://localhost:3001/products');
-             if (response.ok) {
-                 const data = await response.json();
-                 setProducts(data);
-             } else {
-                 console.error('Error al obtener los productos:', response.statusText);
-             }
-         } catch (error) {
-             console.error('Error al realizar la solicitud:', error);
-         }
-     };
+    const fetchProducts = async () => {
+        try {
+            const response = await fetch('http://localhost:3001/products');
+            if (response.ok) {
+                const data = await response.json();
+                setProducts(data);
+            } else {
+                console.error('Error al obtener los productos:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Error al realizar la solicitud:', error);
+        }
+    };
 
-     fetchProducts();
+    fetchProducts();
 }, []);
 
 const imageLinks = [
@@ -39,8 +39,9 @@ const imageLinks = [
 ];
 
   return (
-   <>
-   <DemoSlider imageLinks={imageLinks} />
+  <>
+  
+  <DemoSlider imageLinks={imageLinks} />
     <div id="categoriaContenedor">
       <h1 className="text-3xl text-white pt-10 font-bold text-center mb-4">Encontra lo que estas buscando en nuestras categorias</h1>
       <CategoryContainer/>
@@ -49,6 +50,6 @@ const imageLinks = [
     <h1 className="text-3xl text-white pt-10 font-bold text-center mb-4">Productos mas populares</h1>
     <Carrusel products={products} />
     </div>
-   </>
+  </>
   );
 }

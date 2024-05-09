@@ -9,18 +9,18 @@ interface SimpleImageCarouselProps {
 
 const SimpleImageCarousel: React.FC<SimpleImageCarouselProps> = ({ imageLinks }) => {
     const settings = {
-        dots: true, // Muestra puntos de navegación
-        infinite: true, // Habilita desplazamiento infinito
-        speed: 500, // Velocidad de transición entre imágenes en milisegundos
-        slidesToShow: 1, // Muestra una imagen a la vez
-        slidesToScroll: 1, // Desplaza una imagen a la vez
-        autoplay: true, // Habilita el desplazamiento automático
-        autoplaySpeed: 3000, // Velocidad del desplazamiento automático en milisegundos
-        centerMode: false, // No centra las imágenes en el carrusel
+        dots: true, 
+        infinite: true, 
+        speed: 500, 
+        slidesToShow: 1, 
+        slidesToScroll: 1, 
+        autoplay: true, 
+        autoplaySpeed: 3000,
+        centerMode: false, 
     };
 
     return (
-        <div className="mx-4 " > {/* Agrega margen alrededor del carrusel */}
+        <div className="mx-4 " > 
             <Slider {...settings}>
                 {imageLinks.map((link, index) => (
                     <div key={index}>

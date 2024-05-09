@@ -5,6 +5,7 @@ import ProductCard from '../Cards/Cards';
 
 
 interface IProduct {
+    id: number,
     name: string;
     price: number;
     description: string;
@@ -18,24 +19,24 @@ interface ProductCarouselProps {
 }
 
 const ProductCarousel: React.FC<ProductCarouselProps> = ({ products }) => {
-    // Configuración del carrusel
+    
     const settings = {
         dots: true,
         infinite: true,
         speed: 500,
-        slidesToShow: 4, // Cantidad de tarjetas a mostrar en el carrusel
-        slidesToScroll: 1, // Cantidad de tarjetas a mover por scroll
-        autoplay: true, // Habilita el desplazamiento automático
-        autoplaySpeed: 2000, // Velocidad del desplazamiento automático en milisegundos
-        centerMode: true, // Centra las tarjetas en el carrusel
+        slidesToShow: 4, 
+        slidesToScroll: 1, 
+        autoplay: true, 
+        autoplaySpeed: 2000, 
+        centerMode: true, 
         responsive: [
             {
-                breakpoint: 768, // Punto de quiebre para pantallas más pequeñas
+                breakpoint: 768, 
                 settings: {
                     slidesToShow: 1,
                     slidesToScroll: 1,
                     dots: true,
-                    centerMode: false, // Desactiva el centrado en pantallas pequeñas
+                    centerMode: false, 
                 },
             },
             {
