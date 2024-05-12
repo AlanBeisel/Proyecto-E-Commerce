@@ -53,11 +53,12 @@ const CartPage: React.FC = () => {
 
     const clearCart = () => {
         setCartItems([]);
+        router.push('/');
     };
 
     return (
         <div className="cart-page flex flex-col m-4">
-      
+    
             <div className="cart-items mb-4 p-4 border bg-white rounded-md">
                 {cartItems.map((item: CartItem) => (
                     <CartItem
@@ -69,7 +70,7 @@ const CartPage: React.FC = () => {
                 ))}
             </div>
 
-           
+        
             <div className="cart-summary p-4 border bg-white rounded-md">
                 <CartSummary
                     subtotal={subtotal}

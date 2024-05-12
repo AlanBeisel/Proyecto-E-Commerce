@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import ImageGallery from '../../components/VistaProduct/gallery';
 import ProductInfo from '../../components/VistaProduct/info';
 import ProductPriceAvailability from '../../components/VistaProduct/price';
+import { toast } from 'react-toastify';
 
 interface CartItemType {
     id: number;
@@ -19,6 +20,7 @@ const ViewProduct: React.FC = () => {
     const pathname = usePathname();
     const id = pathname.split('/')[2];
     const router = useRouter();
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
 
     const [product, setProduct] = useState<Product | null>(null);
     const [cartItems, setCartItems] = useState<CartItemType[]>(() => {
@@ -45,7 +47,24 @@ const ViewProduct: React.FC = () => {
         }
     }, [id]);
 
+    useEffect(() => {
+        const userSession = localStorage.getItem('userSession');
+        setIsAuthenticated(!!userSession); // !!userSession devolverá true si userSession no es null o undefined
+    }, []);
+
     const handleAddToCart = (product: Product) => {
+        if (!isAuthenticated) {
+            toast.warning('Debes iniciar sesión para agregar productos al carrito.', {
+                position: "top-center",
+                autoClose: 3000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+            return;
+        }
         const existingProduct = cartItems.find(item => item.id === product.id);
         
         if (existingProduct) {
@@ -126,20 +145,14 @@ const ViewProduct: React.FC = () => {
                 )}
 
                 
-                {existingProduct ? (
-                    <button
-                        className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mr-2 mt-4"
-                        onClick={() => router.push('/cart')}
-                    >
-                        Ir al carrito
-                    </button>
-                ) : (
-                    <button
-                        className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mr-2 mt-4"
-                    >
-                        Comprar ahora
-                    </button>
-                )}
+                {existingProduct && (
+                <button
+                className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mr-2 mt-4"
+                onClick={() => router.push('/cart')}
+                >
+                Ir al carrito
+                </button>
+)}
             </div>
         </div>
     </div>

@@ -53,7 +53,7 @@ const ProductCarousel: React.FC<ProductCarouselProps> = ({ products }) => {
 
 
     return (
-        <div className="mx-6">
+        <div className="m-6">
         <Slider {...settings}>
             {products.map((product: IProduct) => (
                 <ProductCard key={product.name} product={product} />

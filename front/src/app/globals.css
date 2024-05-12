@@ -35,6 +35,7 @@ body {
 #categoriaContenedor{
   background-color: rgb(134, 145, 155);
   margin: 20px;
+  padding-bottom: 30px ;
   border-radius: 10px;
   text-align: center;
 }

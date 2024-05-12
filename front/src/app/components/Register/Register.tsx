@@ -83,7 +83,7 @@ const RegistroFormulario: React.FC<RegistroFormularioProps> = ({ onClose }) => {
         <div className="h-full w-screen bg-blue-100 flex justify-center items-center">
             <div className="lg:w-2/5 md:w-1/2 w-2/3">
                 <form onSubmit={handleSubmit} className="bg-white p-10 rounded-lg shadow-lg min-w-full">
-                    <h1 className="text-center text-2xl mb-6 text-gray-600 font-bold font-sans">Registro de Formulario</h1>
+                    <h1 className="text-center text-2xl mb-6 text-gray-600 font-bold font-sans">Formulario de registro</h1>
 
                     
                     <div>
@@ -175,12 +175,6 @@ const RegistroFormulario: React.FC<RegistroFormularioProps> = ({ onClose }) => {
                         Registrar
                     </button>
 
-                    <button
-                        onClick={() => {}}
-                        className="w-full mt-3 bg-indigo-100 rounded-lg px-4 py-2 text-lg text-gray-800 tracking-wide font-sans"
-                    >
-                        Iniciar sesión
-                    </button>
 
                     <button
                         onClick={onClose}
