@@ -52,6 +52,7 @@ const ProfilePage: React.FC = () => {
 
                 if (response.ok) {
                     const ordersData = await response.json();
+                    console.log(ordersData)
                     setOrders(ordersData);
                     setShowOrders(true);
                 } else {
@@ -72,18 +73,22 @@ const ProfilePage: React.FC = () => {
 
                 {showOrders && (
                     <div className="order-section bg-gray-200 rounded-xl m-3 p-4">
-                        <button
-                            className="close-btn mb-4 text-red-600"
-                            onClick={() => setShowOrders(false)}
-                        >
-                            Cerrar
-                        </button>
+                    <div className="flex justify-between items-center mb-4">
+                        <h2 className="text-xl font-bold">Historial de compras</h2>
+                    <button
+                    className="close-btn text-red-600"
+                    onClick={() => setShowOrders(false)}
+                    >
+                    Cerrar
+                    </button>
+                    </ div>
 
                         {orders.length > 0 ? (
                             <div>
-                                <h2 className="text-xl font-bold mb-4">Historial de órdenes</h2>
+                                
                                 <div className="order-list space-y-4">
                                     {orders.map((order) => (
+                                        
                                         <OrderItem key={order.id} order={order} />
                                     ))}
                                 </div>

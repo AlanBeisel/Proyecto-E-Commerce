@@ -2,6 +2,7 @@ import React, { FormEvent, useState } from 'react';
 
 interface RegistroFormularioProps {
     onClose: () => void; 
+    onRegistrationSuccess: () => void;
 }
 
 interface FormularioData {
@@ -12,16 +13,15 @@ interface FormularioData {
     phone: string;
 }
 
-const RegistroFormulario: React.FC<RegistroFormularioProps> = ({ onClose }) => {
+const RegistroFormulario: React.FC<RegistroFormularioProps> = ({ onClose, onRegistrationSuccess }) => {
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
     const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         setErrorMessage(null);
-        setSuccessMessage(null);
+        
 
-      
         const formData = new FormData(event.currentTarget);
         const formValues: FormularioData = {
             name: formData.get('name') as string,
@@ -69,9 +69,7 @@ const RegistroFormulario: React.FC<RegistroFormularioProps> = ({ onClose }) => {
                 return;
             }
 
-            
-            const data = await response.json();
-            setSuccessMessage('Registro exitoso');
+            onRegistrationSuccess();
         
         } catch (error) {
             console.error('Error durante el registro:', error);

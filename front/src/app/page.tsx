@@ -43,7 +43,7 @@ const imageLinks = [
   
   <DemoSlider imageLinks={imageLinks} />
     <div id="categoriaContenedor">
-      <h1 className="text-3xl text-white pt-10 font-bold text-center mb-4">Encontrá lo que estas buscando en nuestras categorías</h1>
+      <h1 className="text-3xl text-white pt-10 font-bold text-center mb-4">Encontrá lo que estás buscando en nuestras categorías</h1>
       <CategoryContainer/>
     </div>
     <div id="categoriaContenedor">

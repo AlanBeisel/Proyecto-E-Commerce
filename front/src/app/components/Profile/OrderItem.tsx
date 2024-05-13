@@ -1,28 +1,34 @@
 import React from 'react';
 
+interface Product {
+    id: number;
+    name: string;
+    description: string;
+    price: number;
+}
 
 interface Order {
     id: number;
-    products: any[]; 
-
+    products: Product[];
 }
-
 
 const OrderItem: React.FC<{ order: Order }> = ({ order }) => {
     return (
         <div className="order-item p-4 border bg-white rounded-md mb-2 shadow-sm">
-            <h3 className="font-bold">Orden ID: {order.id}</h3>
             <div>
                 <h4 className="font-semibold">Productos:</h4>
                 <ul>
                     {order.products.map((product) => (
                         <li key={product.id} className="ml-4">
-                            {product.name}
+                            <div>
+                                <p className="font-semibold">{product.name}</p>
+                                <p>{product.description}</p>
+                                <p>Precio: ${product.price}</p>
+                            </div>
                         </li>
                     ))}
                 </ul>
             </div>
-        
         </div>
     );
 };

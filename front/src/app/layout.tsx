@@ -15,6 +15,7 @@ const inter = Inter({ subsets: ["latin"] });
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   const [showForm, setShowForm] = useState(false);
   const [showLoginForm, setShowLoginForm] = useState(false);
+  const [registrationSuccess, setRegistrationSuccess] = useState(false);
   
   const handleShowLoginForm = () => setShowLoginForm(true);
   const handleHideLoginForm = () => setShowLoginForm(false);
@@ -24,6 +25,14 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   const handleLoginSuccess = () => {
     alert('Inicio de sesión exitoso');
     setShowLoginForm(false); 
+};
+
+const handleRegistrationSuccess = () => {
+  setRegistrationSuccess(true);
+  handleHideForm(); 
+  setTimeout(() => {
+    setRegistrationSuccess(false);
+  }, 3000); 
 };
 
   return (
@@ -46,8 +55,14 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         {showForm && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
             <div className="relative bg-white rounded-lg shadow-lg">
-              <RegistroFormulario onClose={handleHideForm} />
+              <RegistroFormulario onClose={handleHideForm} onRegistrationSuccess={handleRegistrationSuccess} />
             </div>
+          </div>
+        )}
+
+        {registrationSuccess && (
+          <div className="fixed inset-x-0 top-0 z-50 p-4 bg-green-500 text-white text-center">
+            Usuario registrado con éxito
           </div>
         )}
         
