@@ -16,8 +16,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onRegisterClick, onLoginClick })
     const [menuOpen, setMenuOpen] = useState(false);
     const [categoriesDropdownOpen, setCategoriesDropdownOpen] = useState(false);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const router = useRouter();
     const menuRef = useRef<HTMLDivElement>(null);
+    const router = useRouter();
     
     useEffect(() => {
         const userSession = localStorage.getItem('userSession');
@@ -25,7 +25,6 @@ export const Navbar: React.FC<NavbarProps> = ({ onRegisterClick, onLoginClick })
     }, []);
 
     useEffect(() => {
-        // Agrega un event listener para cerrar el menú desplegado al hacer clic fuera de él
         function handleClickOutside(event: MouseEvent) {
             if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
                 setMenuOpen(false);

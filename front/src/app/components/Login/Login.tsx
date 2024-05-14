@@ -32,7 +32,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onClose }) => {
                 // Guardar token y datos del usuario en localStorage
                 localStorage.setItem('userSession', JSON.stringify({ token, userData: user }));
                 
-                // Redirigir a la página raíz ("/")
+                
                 window.location.href = '/';
             } else {
                 const errorData = await response.json();
@@ -53,29 +53,29 @@ const LoginForm: React.FC<LoginFormProps> = ({ onClose }) => {
                     <div>
                         <label className="text-gray-800 font-semibold block my-3 text-md" htmlFor="email">Email</label>
                         <input
-    className="w-full bg-gray-100 px-4 py-2 rounded-lg focus:outline-none"
-    type="email"
-    name="email"
-    id="email"
-    placeholder="Email"
-    value={email}
-    onChange={(e) => setEmail(e.target.value)}
-    required
-/>
-                    </div>
+                            className="w-full bg-gray-100 px-4 py-2 rounded-lg focus:outline-none"
+                            type="email"
+                            name="email"
+                            id="email"
+                            placeholder="Email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            required
+                            />
+                            </div>
 
-                    <div>
+                        <div>
                         <label className="text-gray-800 font-semibold block my-3 text-md" htmlFor="password">Contraseña</label>
                         <input
-    className="w-full bg-gray-100 px-4 py-2 rounded-lg focus:outline-none"
-    type="password"
-    name="password"
-    id="password"
-    placeholder="Contraseña"
-    value={password}
-    onChange={(e) => setPassword(e.target.value)}
-    required
-/>
+                            className="w-full bg-gray-100 px-4 py-2 rounded-lg focus:outline-none"
+                            type="password"
+                            name="password"
+                            id="password"
+                            placeholder="Contraseña"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            required
+                            />
                     </div>
 
                     {errorMessage && (
