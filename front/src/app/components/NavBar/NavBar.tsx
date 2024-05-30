@@ -29,10 +29,10 @@ export const Navbar: React.FC = () => {
             }
         }
 
-        document.addEventListener('click', handleClickOutside);
+        document.addEventListener('mousedown', handleClickOutside);
         
         return () => {
-            document.removeEventListener('click', handleClickOutside);
+            document.removeEventListener('mousedown', handleClickOutside);
         };
     }, []);
 
@@ -105,7 +105,7 @@ export const Navbar: React.FC = () => {
                         <Link href="/" className="block p-2 hover:text-gray-300">Home</Link>
                         <Link href="/ofertas" className="block p-2 hover:text-gray-300">Ofertas</Link>
                     
-                        <div className="relative mx-2 hover:text-gray-300" onClick={() => setCategoriesDropdownOpen(!categoriesDropdownOpen)}>
+                        <div className="relative mx-2 hover:text-gray-300" ref={menuRef} onClick={() => setCategoriesDropdownOpen(!categoriesDropdownOpen)}>
                         <div className="flex items-center">
                         <span>Categorías</span>
                         <AiOutlineDown className="ml-1" />
@@ -176,7 +176,7 @@ export const Navbar: React.FC = () => {
                 <Link href="/" className="mx-2 hover:text-gray-300">Home</Link>
                 <Link href="/ofertas" className="mx-2 hover:text-gray-300">Ofertas</Link>
             
-                <div className="relative mx-2 hover:text-gray-300" ref={menuRef} >
+                <div className="relative mx-2 hover:text-gray-300" ref={menuRef} onClick={() => setCategoriesDropdownOpen(!categoriesDropdownOpen)}>
                         <div className="flex items-center">
                         <span>Categorías</span>
                         <AiOutlineDown className="ml-1" />
