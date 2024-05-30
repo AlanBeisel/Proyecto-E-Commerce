@@ -2,6 +2,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import ProductCard from '../Cards/Cards';
+import { Product } from "@/app/helpers/interfaces/IProduct";
 
 
 interface IProduct {
@@ -15,7 +16,7 @@ interface IProduct {
 }
 
 interface ProductCarouselProps {
-    products: IProduct[];
+    products: Product[];
 }
 
 const ProductCarousel: React.FC<ProductCarouselProps> = ({ products }) => {
@@ -55,7 +56,7 @@ const ProductCarousel: React.FC<ProductCarouselProps> = ({ products }) => {
     return (
         <div className="m-6">
         <Slider {...settings}>
-            {products.map((product: IProduct) => (
+            {products.map((product: Product) => (
                 <ProductCard key={product.name} product={product} />
             ))}
         </Slider>

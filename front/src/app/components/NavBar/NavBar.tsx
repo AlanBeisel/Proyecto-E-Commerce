@@ -1,23 +1,20 @@
 'use client';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, FormEvent } from 'react';
 import Link from 'next/link';
 import { toast } from 'react-toastify';
 import { AiOutlineShoppingCart, AiOutlineSearch, AiOutlineMenu, AiOutlineClose, AiOutlineDown } from 'react-icons/ai';
 import { useRouter } from 'next/navigation';
 
 
-interface NavbarProps {
-    onRegisterClick?: () => void;
-    onLoginClick?: () => void;
-}
 
 
-export const Navbar: React.FC<NavbarProps> = ({ onRegisterClick, onLoginClick }) => {
+export const Navbar: React.FC = () => {
     const [menuOpen, setMenuOpen] = useState(false);
     const [categoriesDropdownOpen, setCategoriesDropdownOpen] = useState(false);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const menuRef = useRef<HTMLDivElement>(null);
     const router = useRouter();
+    const [searchQuery, setSearchQuery] = useState('');
     
     useEffect(() => {
         const userSession = localStorage.getItem('userSession');
@@ -32,12 +29,19 @@ export const Navbar: React.FC<NavbarProps> = ({ onRegisterClick, onLoginClick })
             }
         }
 
-        document.addEventListener('mousedown', handleClickOutside);
+        document.addEventListener('click', handleClickOutside);
         
         return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
+            document.removeEventListener('click', handleClickOutside);
         };
     }, []);
+
+    const handleSearch = (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        if (searchQuery.trim() !== '') {
+        router.push(`/search/${searchQuery}`);
+        }
+    };
 
     const handleLogout = () => {
         localStorage.removeItem('userSession');
@@ -61,6 +65,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onRegisterClick, onLoginClick })
         }
     };
 
+    
+
     return (
         <nav className="bg-gray-800 text-white p-4 sm:p-6 md:flex md:justify-between md:items-center rounded-xl m-4" id='navBar'>
         <div className="container mx-auto flex justify-between items-center sm:p-6">
@@ -83,32 +89,36 @@ export const Navbar: React.FC<NavbarProps> = ({ onRegisterClick, onLoginClick })
             
                 {menuOpen && (
                     <div className="absolute right-0 top-12 bg-gray-800 text-white p-4 rounded-md w-64 z-10">
-                        <div className="relative block p-2 hover:text-gray-300">
-                            <input
-                                type="text"
-                                placeholder="Buscar productos..."
-                                className="w-full bg-gray-700 p-2 rounded-md focus:outline-none text-white"
-                            />
-                            <AiOutlineSearch className="absolute top-1/2 transform -translate-y-1/2 right-2 text-white" />
-                        </div>
+                        <form onSubmit={handleSearch} className="relative block p-2 hover:text-gray-300">
+                                <input
+                                    type="text"
+                                    value={searchQuery}
+                                    onChange={(e) => setSearchQuery(e.target.value)}
+                                    placeholder="Buscar productos..."
+                                    className="w-full bg-gray-700 p-2 rounded-md focus:outline-none text-white"
+                                />
+                                <button type="submit">
+                                    <AiOutlineSearch className="absolute top-1/2 transform -translate-y-1/2 right-2 text-white" />
+                                </button>
+                            </form>
 
                         <Link href="/" className="block p-2 hover:text-gray-300">Home</Link>
                         <Link href="/ofertas" className="block p-2 hover:text-gray-300">Ofertas</Link>
                     
-                        <div className="relative block p-2 hover:text-gray-300">
-                            <button onClick={() => setCategoriesDropdownOpen(!categoriesDropdownOpen)} className="flex items-center">
-                                Categorías <AiOutlineDown className="ml-2" />
-                            </button>
-                    
-                            {categoriesDropdownOpen && (
-                                <div className="absolute left-0 mt-2 bg-gray-700 text-white rounded-md p-2">
-                                    <Link href="/categorias/smartphones" className="block p-2 hover:text-gray-300">Smartphones</Link>
+                        <div className="relative mx-2 hover:text-gray-300" onClick={() => setCategoriesDropdownOpen(!categoriesDropdownOpen)}>
+                        <div className="flex items-center">
+                        <span>Categorías</span>
+                        <AiOutlineDown className="ml-1" />
+                        </div>
+                        {categoriesDropdownOpen && (
+                        <div className="absolute bg-gray-800 text-white p-2 rounded-md mt-2" style={{ zIndex: 1000 }}>
+                                    <Link href="/categorias/smartphones" className="block p-2 hover:text-gray-300" >Smartphones</Link>
                                     <Link href="/categorias/laptops" className="block p-2 hover:text-gray-300">Laptops</Link>
                                     <Link href="/categorias/tablets" className="block p-2 hover:text-gray-300">Tablets</Link>
                                     <Link href="/categorias/headphones" className="block p-2 hover:text-gray-300">Headphones</Link>
                                     <Link href="/categorias/cameras" className="block p-2 hover:text-gray-300">Cámaras</Link>
                                     <Link href="/categorias/printers" className="block p-2 hover:text-gray-300">Impresoras</Link>
-                                    <Link href="/categorias/monitors" className="block p-2 hover:text-gray-300">Monitores</Link>
+                                    <Link href="/categorias/relojes" className="block p-2 hover:text-gray-300">Relojes</Link>
                                     <Link href="/categorias/storage" className="block p-2 hover:text-gray-300">Almacenamiento</Link>
                                     <Link href="/categorias/accessories" className="block p-2 hover:text-gray-300">Accesorios</Link>
                                 </div>
@@ -121,12 +131,11 @@ export const Navbar: React.FC<NavbarProps> = ({ onRegisterClick, onLoginClick })
                             <Link href="#" className="block p-2 hover:text-gray-300"
                                 onClick={(e) => {
                                     e.preventDefault();
-                                    if (onLoginClick) {
-                                        onLoginClick();
-                                    }
-                                }}>
-                                Iniciar sesión
-                            </Link>
+                                    router.push('/login');
+                                    }}>
+                                    Iniciar sesión
+                                </Link>
+                            
                         )}
 
                         {isAuthenticated ? (
@@ -137,12 +146,10 @@ export const Navbar: React.FC<NavbarProps> = ({ onRegisterClick, onLoginClick })
                             <Link href="#" className="block p-2 hover:text-gray-300"
                                 onClick={(e) => {
                                     e.preventDefault();
-                                    if (onRegisterClick) {
-                                        onRegisterClick();
-                                    }
-                                }}>
-                                Registrarme
-                            </Link>
+                                    router.push('/register');
+                                    }}>
+                                    Registrarme
+                                </Link>
                         )}
 
                         <Link href="/cart" className="block p-2 hover:text-gray-300" onClick={handleCartClick}>
@@ -153,37 +160,41 @@ export const Navbar: React.FC<NavbarProps> = ({ onRegisterClick, onLoginClick })
             </div>
 
             <div className="hidden xl:flex items-center justify-center flex-grow">
-                <div className="flex items-center bg-gray-700 rounded-md p-2 mx-2" id='buscador'>
-                    <AiOutlineSearch className="text-white mr-2" />
-                    <input
-                        type="text"
-                        placeholder="Buscar productos..."
-                        className="bg-transparent text-white border-none focus:outline-none"
-                    />
-                </div>
+            <form onSubmit={handleSearch} className="relative block p-2 hover:text-gray-300">
+                                <input
+                                    type="text"
+                                    value={searchQuery}
+                                    onChange={(e) => setSearchQuery(e.target.value)}
+                                    placeholder="Buscar productos..."
+                                    className="w-full bg-gray-700 p-2 rounded-md focus:outline-none text-white"
+                                />
+                                <button type="submit">
+                                    <AiOutlineSearch className="absolute top-1/2 transform -translate-y-1/2 right-2 text-white" />
+                                </button>
+                            </form>
             
                 <Link href="/" className="mx-2 hover:text-gray-300">Home</Link>
                 <Link href="/ofertas" className="mx-2 hover:text-gray-300">Ofertas</Link>
             
-                <div className="relative mx-2 hover:text-gray-300" onClick={() => setCategoriesDropdownOpen(!categoriesDropdownOpen)}>
-                    <div className="flex items-center">
+                <div className="relative mx-2 hover:text-gray-300" ref={menuRef} >
+                        <div className="flex items-center">
                         <span>Categorías</span>
                         <AiOutlineDown className="ml-1" />
-                    </div>
-                    {categoriesDropdownOpen && (
-                        <div className="absolute bg-gray-800 text-white p-2 rounded-md mt-2" style={{ zIndex: 1000 }}>
-                            <Link href="/categorias/smartphones" className="block p-2 hover:text-gray-300">Smartphones</Link>
-                            <Link href="/categorias/laptops" className="block p-2 hover:text-gray-300">Laptops</Link>
-                            <Link href="/categorias/tablets" className="block p-2 hover:text-gray-300">Tablets</Link>
-                            <Link href="/categorias/headphones" className="block p-2 hover:text-gray-300">Headphones</Link>
-                            <Link href="/categorias/cameras" className="block p-2 hover:text-gray-300">Cámaras</Link>
-                            <Link href="/categorias/printers" className="block p-2 hover:text-gray-300">Impresoras</Link>
-                            <Link href="/categorias/monitors" className="block p-2 hover:text-gray-300">Monitores</Link>
-                            <Link href="/categorias/storage" className="block p-2 hover:text-gray-300">Almacenamiento</Link>
-                            <Link href="/categorias/accessories" className="block p-2 hover:text-gray-300">Accesorios</Link>
                         </div>
-                    )}
-                </div>
+                        {categoriesDropdownOpen && (
+                        <div className="absolute bg-gray-800 text-white p-2 rounded-md mt-2" style={{ zIndex: 1000 }}>
+                                    <Link href="/categorias/smartphones" className="block p-2 hover:text-gray-300" >Smartphones</Link>
+                                    <Link href="/categorias/laptops" className="block p-2 hover:text-gray-300">Laptops</Link>
+                                    <Link href="/categorias/tablets" className="block p-2 hover:text-gray-300">Tablets</Link>
+                                    <Link href="/categorias/headphones" className="block p-2 hover:text-gray-300">Headphones</Link>
+                                    <Link href="/categorias/cameras" className="block p-2 hover:text-gray-300">Cámaras</Link>
+                                    <Link href="/categorias/printers" className="block p-2 hover:text-gray-300">Impresoras</Link>
+                                    <Link href="/categorias/relojes" className="block p-2 hover:text-gray-300">Relojes</Link>
+                                    <Link href="/categorias/storage" className="block p-2 hover:text-gray-300">Almacenamiento</Link>
+                                    <Link href="/categorias/accessories" className="block p-2 hover:text-gray-300">Accesorios</Link>
+                                </div>
+                            )}
+                        </div>
 
                 {isAuthenticated ? (
                     <Link href="/profile" className="mx-2 hover:text-gray-300">Mi perfil</Link>
@@ -191,9 +202,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onRegisterClick, onLoginClick })
                     <Link href="#" className="mx-2 hover:text-gray-300"
                         onClick={(e) => {
                             e.preventDefault();
-                            if (onLoginClick) {
-                                onLoginClick();
-                            }
+                            router.push('/login');
                         }}>
                         Iniciar sesión
                     </Link>
@@ -207,9 +216,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onRegisterClick, onLoginClick })
                     <Link href="#" className="mx-2 hover:text-gray-300"
                         onClick={(e) => {
                             e.preventDefault();
-                            if (onRegisterClick) {
-                                onRegisterClick();
-                            }
+                            router.push('/register');
                         }}>
                         Registrarme
                     </Link>

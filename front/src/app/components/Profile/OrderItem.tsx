@@ -1,16 +1,9 @@
 import React from 'react';
+import { Order } from '@/app/helpers/interfaces/IOrders';
 
-interface Product {
-    id: number;
-    name: string;
-    description: string;
-    price: number;
-}
 
-interface Order {
-    id: number;
-    products: Product[];
-}
+
+
 
 const OrderItem: React.FC<{ order: Order }> = ({ order }) => {
     return (

@@ -1,4 +1,4 @@
-import { Product } from './ProductContainer';
+import { Product } from '../../helpers/interfaces/IProduct';
 
 interface ProductCardProps {
 product: Product;
@@ -28,4 +28,3 @@ return (
 };
 
 export default ProductCard;
-

@@ -1,16 +1,8 @@
 import ProductCard from './Cards';
+import { Product } from '@/app/helpers/interfaces/IProduct';
 
 
 
-export interface Product {
-    id: number,
-    name: string;
-    price: number;
-    description: string;
-    image: string;
-    categoryId: number;
-    stock: number;
-}
 
 const ProductContainer: React.FC<{ products: Product[] }> = ({ products }) => {
     return (

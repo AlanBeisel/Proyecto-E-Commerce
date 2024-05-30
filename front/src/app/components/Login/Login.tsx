@@ -1,13 +1,9 @@
 
 import React, { useState } from 'react';
 
-interface LoginFormProps {
-    onClose: () => void;
-    onLoginSuccess: () => void;
-}
 
 
-const LoginForm: React.FC<LoginFormProps> = ({ onClose }) => {
+const LoginForm: React.FC = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -87,13 +83,6 @@ const LoginForm: React.FC<LoginFormProps> = ({ onClose }) => {
                         className="w-full mt-6 bg-indigo-600 rounded-lg px-4 py-2 text-lg text-white tracking-wide font-semibold font-sans"
                     >
                         Iniciar sesión
-                    </button>
-
-                    <button
-                        onClick={onClose}
-                        className="w-full mt-3 bg-indigo-100 rounded-lg px-4 py-2 text-lg text-gray-800 tracking-wide font-sans"
-                    >
-                        Cerrar
                     </button>
                 </form>
             </div>

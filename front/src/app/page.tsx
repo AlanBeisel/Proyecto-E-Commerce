@@ -3,6 +3,8 @@ import DemoSlider from "./components/Carousel/DemoSlider";
 import CategoryContainer from "./components/Categorias/Categoria";
 import React, { useState, useEffect } from 'react';
 import Carrusel from "./components/Carousel/Carrusel"
+import { getProductsDB } from "./helpers/peticiones/product.helper";
+import { Product } from '../app/helpers/interfaces/IProduct';
 
 
 
@@ -11,23 +13,14 @@ import Carrusel from "./components/Carousel/Carrusel"
 
 export default function Home() {
 
-const [products, setProducts] = useState([]);
+const [products, setProducts] = useState<Product[]>([]);
 
 useEffect(() => {
     const fetchProducts = async () => {
-        try {
-            const response = await fetch('http://localhost:3001/products');
-            if (response.ok) {
-                const data = await response.json();
-                setProducts(data);
-            } else {
-                console.error('Error al obtener los productos:', response.statusText);
-            }
-        } catch (error) {
-            console.error('Error al realizar la solicitud:', error);
-        }
+      const products = await getProductsDB()
+      setProducts(products)
     };
-
+    
     fetchProducts();
 }, []);
 
@@ -40,7 +33,6 @@ const imageLinks = [
 
   return (
   <>
-  
   <DemoSlider imageLinks={imageLinks} />
     <div id="categoriaContenedor">
       <h1 className="text-3xl text-white pt-10 font-bold text-center mb-4">Encontrá lo que estás buscando en nuestras categorías</h1>

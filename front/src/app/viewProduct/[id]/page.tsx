@@ -1,6 +1,6 @@
 "use client";
 import { usePathname, useRouter } from 'next/navigation';
-import { Product } from '@/app/components/Cards/ProductContainer';
+import { Product } from '@/app/helpers/interfaces/IProduct';
 import { useEffect, useState } from 'react';
 import ImageGallery from '../../components/VistaProduct/gallery';
 import ProductInfo from '../../components/VistaProduct/info';
@@ -16,7 +16,8 @@ interface CartItemType {
 
 
 
-const ViewProduct: React.FC = () => {
+const ViewProduct = ({params} : {params: {productId: string}}) => {
+
     const pathname = usePathname();
     const id = pathname.split('/')[2];
     const router = useRouter();
@@ -24,9 +25,7 @@ const ViewProduct: React.FC = () => {
 
     const [product, setProduct] = useState<Product | null>(null);
     const [cartItems, setCartItems] = useState<CartItemType[]>(() => {
-        // Verifica si estamos en el lado del cliente
         if (typeof window !== "undefined") {
-            // Recuperar el carrito de `localStorage` al iniciar
             const storedCart = localStorage.getItem('cartItems');
             return storedCart ? JSON.parse(storedCart) as CartItemType[] : [];
         }
@@ -49,7 +48,7 @@ const ViewProduct: React.FC = () => {
 
     useEffect(() => {
         const userSession = localStorage.getItem('userSession');
-        setIsAuthenticated(!!userSession); // !!userSession devolverá true si userSession no es null o undefined
+        setIsAuthenticated(!!userSession); 
     }, []);
 
     const handleAddToCart = (product: Product) => {
