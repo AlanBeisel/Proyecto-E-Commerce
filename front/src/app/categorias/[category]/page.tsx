@@ -1,7 +1,7 @@
 "use client"
 import { useEffect, useState } from 'react';
-import { Product } from '@/app/helpers/interfaces/IProduct'; // Ajusta el path según tu estructura
-import { getProductsDB } from '@/app/helpers/peticiones/product.helper'; // Ajusta el path según tu estructura
+import { Product } from '@/app/helpers/interfaces/IProduct'; 
+import { getProductsDB } from '@/app/helpers/peticiones/product.helper'; 
 import ProductCard from '@/app/components/Cards/Cards';
 
 const categoryMapping: { [key: string]: number } = {
