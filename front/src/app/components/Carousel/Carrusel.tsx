@@ -1,25 +1,27 @@
+"use client";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import ProductCard from '../Cards/Cards';
 import { Product } from "@/app/helpers/interfaces/IProduct";
+import { useState, useEffect } from "react";
+import { getProductsDB } from "@/app/helpers/peticiones/product.helper";
 
 
-interface IProduct {
-    id: number,
-    name: string;
-    price: number;
-    description: string;
-    image: string;
-    categoryId: number;
-    stock: number;
-}
 
-interface ProductCarouselProps {
-    products: Product[];
-}
+const ProductCarousel: React.FC = () => {
 
-const ProductCarousel: React.FC<ProductCarouselProps> = ({ products }) => {
+
+    const [products, setProducts] = useState<Product[]>([]);
+
+useEffect(() => {
+    const fetchProducts = async () => {
+    const products = await getProductsDB()
+    setProducts(products)
+    };
+    
+    fetchProducts();
+}, []);
     
     const settings = {
         dots: true,

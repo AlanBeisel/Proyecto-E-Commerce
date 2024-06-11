@@ -8,7 +8,6 @@ export async function getProductsDB() {
             next: {revalidate: 3600}
         })
         const products: Product[] = await res.json()
-        console.log(products)
         return products
     } catch (error: any) {
         throw new Error(error)

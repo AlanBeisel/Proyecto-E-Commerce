@@ -1,3 +1,4 @@
+"use client"
 import React from 'react';
 import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn } from 'react-icons/fa';
 
@@ -17,7 +18,7 @@ const Footer = () => {
                     <div className="w-full sm:w-1/3 mb-4 sm:mb-0">
                         <h3 className="text-lg font-bold mb-2">Enlaces Útiles</h3>
                         <ul>
-                            <li><a href="#" className="text-white-400 hover:text-black">Inicio</a></li>
+                            <li><a href="/" className="text-white-400 hover:text-black">Inicio</a></li>
                             <li><a href="#" className="text-thite-400 hover:text-black">Sobre Nosotros</a></li>
                             <li><a href="#" className="text-white-400 hover:text-black">Contacto</a></li>
                             <li><a href="#" className="text-white-400 hover:text-black">Términos y Condiciones</a></li>
