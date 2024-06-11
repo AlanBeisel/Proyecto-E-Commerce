@@ -6,6 +6,7 @@ import ImageGallery from '../../components/VistaProduct/gallery';
 import ProductInfo from '../../components/VistaProduct/info';
 import ProductPriceAvailability from '../../components/VistaProduct/price';
 import { toast } from 'react-toastify';
+import { getProductById } from '@/app/helpers/peticiones/product.helper';
 
 interface CartItemType {
     id: number;
@@ -14,15 +15,11 @@ interface CartItemType {
     quantity: number;
 }
 
-
-
-const ViewProduct = ({params} : {params: {productId: string}}) => {
-
+const ViewProduct = ({ params }: { params: { productId: string } }) => {
     const pathname = usePathname();
     const id = pathname.split('/')[2];
     const router = useRouter();
     const [isAuthenticated, setIsAuthenticated] = useState(false);
-
     const [product, setProduct] = useState<Product | null>(null);
     const [cartItems, setCartItems] = useState<CartItemType[]>(() => {
         if (typeof window !== "undefined") {
@@ -31,18 +28,13 @@ const ViewProduct = ({params} : {params: {productId: string}}) => {
         }
         return [];
     });
+    const [isAddedToCart, setIsAddedToCart] = useState(false);
 
     useEffect(() => {
         if (id) {
-            fetch(`http://localhost:3001/products/${id}`)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Error al obtener los datos del producto');
-                    }
-                    return response.json();
-                })
+            getProductById(id)
                 .then(data => setProduct(data))
-                .catch(err => console.error(err));
+                .catch(err => console.error('Error fetching product:', err));
         }
     }, [id]);
 
@@ -64,98 +56,74 @@ const ViewProduct = ({params} : {params: {productId: string}}) => {
             });
             return;
         }
+
         const existingProduct = cartItems.find(item => item.id === product.id);
-        
         if (existingProduct) {
-            
-            const updatedCartItems = cartItems.map(item => 
-                item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
-            );
-            setCartItems(updatedCartItems);
-        } else {
-            
-            setCartItems([...cartItems, { ...product, quantity: 1 }]);
+            return;
         }
 
-        
-        if (typeof window !== "undefined") {
-            localStorage.setItem('cartItems', JSON.stringify(cartItems));
-        }
-    };
-
-    
-    const handleQuantityChange = (id: number, newQuantity: number) => {
-        const updatedCartItems = cartItems.map((item: CartItemType) => 
-            item.id === id ? { ...item, quantity: newQuantity } : item
-        );
+        const updatedCartItems = [...cartItems, { ...product, quantity: 1 }];
         setCartItems(updatedCartItems);
-        localStorage.setItem('cartItems', JSON.stringify(updatedCartItems));
+        if (typeof window !== "undefined") {
+            localStorage.setItem('cartItems', JSON.stringify(updatedCartItems));
+        }
+        setIsAddedToCart(true);
+
+        toast.success('Producto agregado al carrito.', {
+            position: "top-center",
+            autoClose: 3000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        });
     };
 
     if (!product) {
         return <div>Cargando...</div>;
     }
 
-    const existingProduct = cartItems.find((item: CartItemType) => item.id === product.id);
-
     return (
         <div className='m-4'>
-        <div className="view-product-page mx-auto flex w-full lg:w-2/4 m-4 bg-gray-100 p-4 rounded-xl">
-        
-            <div className="flex-1 m-4 border border-gray-300 p-4 rounded-xl">
-                <ImageGallery image={product.image} />
-            </div>
-
-        
-            <div className="flex-1 m-4 border border-gray-300 p-4 rounded-xl">
-                <ProductInfo product={{ name: product.name, description: product.description }} />
-                <ProductPriceAvailability price={product.price} inStock={product.stock > 0} />
-                
-            
-                {existingProduct ? (
-                    <div className="mt-4">
-                        <div className="flex items-center">
-                        
+            <div className="view-product-page mx-auto flex w-full lg:w-2/4 m-4 bg-gray-100 p-4 rounded-xl">
+                <div className="flex-1 m-4 border border-gray-300 p-4 rounded-xl">
+                    <ImageGallery image={product.image} />
+                </div>
+                <div className="flex-1 m-4 border border-gray-300 p-4 rounded-xl">
+                    <ProductInfo product={{ name: product.name, description: product.description }} />
+                    <ProductPriceAvailability price={product.price} inStock={product.stock > 0} />
+                    
+                    {!isAddedToCart ? (
+                        <button
+                            onClick={() => handleAddToCart(product)}
+                            className="bg-gray-300 hover:bg-gray-400 text-blue-500 font-bold py-2 px-4 rounded mt-4"
+                        >
+                            Agregar al carrito
+                        </button>
+                    ) : (
+                        <div>
                             <button
-                                onClick={() => handleQuantityChange(existingProduct.id, existingProduct.quantity - 1)}
-                                className="px-3 py-1 bg-gray-300 text-blue-500 rounded mr-2"
+                                className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mr-2 mt-4"
+                                onClick={() => router.push('/cart')}
                             >
-                                -
+                                Ir al carrito
                             </button>
-                            
-                            <span className="mx-2">{existingProduct.quantity}</span>
-                            
                             <button
-                                onClick={() => handleQuantityChange(existingProduct.id, existingProduct.quantity + 1)}
-                                className="px-3 py-1 bg-gray-300 text-blue-500 rounded ml-2"
+                                className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded mt-4"
+                                onClick={() => router.push('/')}
                             >
-                                +
+                                Seguir mirando productos
                             </button>
                         </div>
-                    </div>
-                ) : (
-                    
-                    <button
-                        onClick={() => handleAddToCart(product)}
-                        className="bg-gray-300 hover:bg-gray-400 text-blue-500 font-bold py-2 px-4 rounded mt-4"
-                    >
-                        Agregar al carrito
-                    </button>
-                )}
-
-                
-                {existingProduct && (
-                <button
-                className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mr-2 mt-4"
-                onClick={() => router.push('/cart')}
-                >
-                Ir al carrito
-                </button>
-)}
+                    )}
+                </div>
             </div>
         </div>
-    </div>
-);
+    );
 };
 
 export default ViewProduct;
+
+
+
