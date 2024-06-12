@@ -88,7 +88,7 @@ export const Navbar: React.FC = () => {
                 </button>
             
                 {menuOpen && (
-                    <div className="absolute right-0 top-12 bg-gray-800 text-white p-4 rounded-md w-64 z-10">
+                    <div className="absolute right-0 top-12 bg-gray-800 text-white p-4 rounded-md w-64 z-10" ref={menuRef} >
                         <form onSubmit={handleSearch} className="relative block p-2 hover:text-gray-300">
                                 <input
                                     type="text"
