@@ -6,17 +6,12 @@ interface CartItemProps {
         name: string;
         image: string;
         price: number;
-        quantity: number;
     };
-    onQuantityChange: (id: number, newQuantity: number) => void;
+    
     onRemove: (id: number) => void;
 }
 
-const CartItem: React.FC<CartItemProps> = ({ item, onQuantityChange, onRemove }) => {
-    const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const newQuantity = parseInt(e.target.value);
-        onQuantityChange(item.id, newQuantity);
-    };
+const CartItem: React.FC<CartItemProps> = ({ item, onRemove }) => {
 
     return (
         <div className="cart-item flex items-center py-4">
@@ -24,13 +19,6 @@ const CartItem: React.FC<CartItemProps> = ({ item, onQuantityChange, onRemove })
             <div className="flex flex-col">
                 <span className="font-bold">{item.name}</span>
                 <span className="text-gray-600">Precio: ${item.price.toFixed(2)}</span>
-                <input
-                    type="number"
-                    min="1"
-                    value={item.quantity}
-                    onChange={handleQuantityChange}
-                    className="mt-2 p-1 border"
-                />
             </div>
             <button
                 onClick={() => onRemove(item.id)}

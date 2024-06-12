@@ -11,7 +11,6 @@ interface CartItem {
     name: string;
     image: string;
     price: number;
-    quantity: number;
 }
 
 
@@ -32,18 +31,11 @@ const CartPage: React.FC = () => {
         }
     }, [isAuthenticated, router]);
 
-    const handleQuantityChange = (id: number, newQuantity: number) => {
-        setCartItems((prevItems: CartItem[]) =>
-            prevItems.map((item: CartItem) =>
-                item.id === id ? { ...item, quantity: newQuantity } : item
-            )
-        );
-    };
 
     const handleRemove = (id: number) => {
         setCartItems((prevItems: CartItem[]) => prevItems.filter((item: CartItem) => item.id !== id));
     };
-    const subtotal = cartItems.reduce((sum: number, item: CartItem) => sum + item.price * item.quantity, 0);
+    const subtotal = cartItems.reduce((sum: number, item: CartItem) => sum + item.price, 0);
     const taxes = subtotal * 0.1; 
     const total = subtotal + taxes;
 
@@ -64,7 +56,6 @@ const CartPage: React.FC = () => {
                     <CartItem
                         key={item.id}
                         item={item}
-                        onQuantityChange={handleQuantityChange}
                         onRemove={handleRemove}
                     />
                 ))}

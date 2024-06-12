@@ -15,7 +15,7 @@ interface CartItemType {
     quantity: number;
 }
 
-const ViewProduct = ({ params }: { params: { productId: string } }) => {
+const ViewProduct = () => {
     const pathname = usePathname();
     const id = pathname.split('/')[2];
     const router = useRouter();
